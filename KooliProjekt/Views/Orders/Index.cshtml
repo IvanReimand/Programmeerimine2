@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                User
             </th>
             <th></th>
         </tr>
@@ -39,3 +39,4 @@
 }
     </tbody>
 </table>
+@(await Component.InvokeAsync<PagerViewComponent>(Model))
