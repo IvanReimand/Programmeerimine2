@@ -6,22 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Data;
+using KooliProjekt.Services;
 
 namespace KooliProjekt.Controllers
 {
     public class OrderLinesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IOrderLineService _orderLineService;
 
-        public OrderLinesController(ApplicationDbContext context)
+        public OrderLinesController(ApplicationDbContext context, IOrderLineService orderLineService)
         {
             _context = context;
+            _orderLineService = orderLineService;
         }
 
         // GET: OrderLines
         public async Task<IActionResult> Index(int page = 1)
         {
+            
             var applicationDbContext = _context.OrderLine.Include(o => o.Order).Include(o => o.Product);
+            
             return View(await applicationDbContext.GetPagedAsync(page, 5));
         }
 

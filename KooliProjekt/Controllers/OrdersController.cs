@@ -6,23 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Data;
+using KooliProjekt.Services;
 
 namespace KooliProjekt.Controllers
 {
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context, IOrderService orderService)
         {
             _context = context;
+            _orderService = orderService;
         }
 
         // GET: Orders
         public async Task<IActionResult> Index(int page = 1)
         {
-            var applicationDbContext = _context.Order.Include(o => o.User);
-            return View(await applicationDbContext.GetPagedAsync(page, 5));
+            var data = await _orderService.List(page, 5);
+
+            return View(data);
         }
 
         // GET: Orders/Details/5
@@ -33,9 +37,7 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var order = await _orderService.Get(id.Value);
             if (order == null)
             {
                 return NotFound();
