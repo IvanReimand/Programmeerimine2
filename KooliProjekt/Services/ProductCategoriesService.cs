@@ -1,27 +1,29 @@
 ﻿using KooliProjekt.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KooliProjekt.Services
 {
-    public class ProductCategoriesController : IProductCategory
+    public class ProductCategoriesService : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductCategoriesController(ApplicationDbContext context)
+        public ProductCategoriesService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<PagedResult<ProductCategoriesController>> List(int page, int pageSize)
+        public async Task<PagedResult<ProductCategory>> List(int page, int pageSize)
         {
             return await _context.ProductCategory.GetPagedAsync(page, 5);
         }
 
-        public async Task<Product> Get(int id)
+        public async Task<ProductCategory> Get(int id)
         {
-            return await _context.Product.Include(o => o.User).FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.ProductCategory.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task Save(Product list)
+        public async Task Save(ProductCategory list)
         {
             if (list.Id == 0)
             {
@@ -37,10 +39,10 @@ namespace KooliProjekt.Services
 
         public async Task Delete(int id)
         {
-            var todoList = await _context.Order.FindAsync(id);
-            if (todoList != null)
+            var category = await _context.ProductCategory.FindAsync(id);
+            if (category != null)
             {
-                _context.Order.Remove(todoList);
+                _context.ProductCategory.Remove(category);
                 await _context.SaveChangesAsync();
             }
         }

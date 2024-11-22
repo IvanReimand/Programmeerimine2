@@ -1,4 +1,5 @@
 ﻿using KooliProjekt.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace KooliProjekt.Services
 {
@@ -16,12 +17,14 @@ namespace KooliProjekt.Services
             return await _context.OrderLine.GetPagedAsync(page, 5);
         }
 
-        public async Task<Order> Get(int id)
+        public async Task<OrderLine> Get(int id)
         {
-            return await _context.Order.Include(o => o.User).FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.OrderLine
+                .Include(o => o.Order)
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task Save(Order list)
+        public async Task Save(OrderLine list)
         {
             if (list.Id == 0)
             {
