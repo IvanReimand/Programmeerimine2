@@ -9,11 +9,11 @@ using KooliProjekt.Data;
 
 namespace KooliProjekt.Controllers
 {
-    public class ProductCategoriesController : Controller
+    public class ProductCategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductCategoriesController(ApplicationDbContext context)
+        public ProductCategoryController(ApplicationDbContext context)
         {
             _context = context;
         }

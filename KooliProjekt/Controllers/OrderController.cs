@@ -10,12 +10,12 @@ using KooliProjekt.Services;
 
 namespace KooliProjekt.Controllers
 {
-    public class OrdersController : Controller
+    public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IOrderService _orderService;
 
-        public OrdersController(ApplicationDbContext context, IOrderService orderService)
+        public OrderController(ApplicationDbContext context, IOrderService orderService)
         {
             _context = context;
             _orderService = orderService;

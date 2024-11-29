@@ -6,31 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Data;
-using KooliProjekt.Services;
 
 namespace KooliProjekt.Controllers
 {
-    public class OrderLinesController : Controller
+    public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IOrderLineService _orderLineService;
 
-        public OrderLinesController(ApplicationDbContext context, IOrderLineService orderLineService)
+        public ProductController(ApplicationDbContext context)
         {
             _context = context;
-            _orderLineService = orderLineService;
         }
 
-        // GET: OrderLines
+        // GET: Products
         public async Task<IActionResult> Index(int page = 1)
         {
-            
-            var applicationDbContext = _context.OrderLine.Include(o => o.Order).Include(o => o.Product);
-            
+            var applicationDbContext = _context.Product.Include(p => p.Category);
             return View(await applicationDbContext.GetPagedAsync(page, 5));
         }
 
-        // GET: OrderLines/Details/5
+        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,45 +33,42 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var orderLine = await _context.OrderLine
-                .Include(o => o.Order)
-                .Include(o => o.Product)
+            var product = await _context.Product
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (orderLine == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return View(orderLine);
+            return View(product);
         }
 
-        // GET: OrderLines/Create
+        // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["OrderId"] = new SelectList(_context.Order, "Id", "Id");
-            ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Set<ProductCategory>(), "Id", "Id");
             return View();
         }
 
-        // POST: OrderLines/Create
+        // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Amount,Price,OrderId,ProductId")] OrderLine orderLine)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description,Picture,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(orderLine);
+                _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrderId"] = new SelectList(_context.Order, "Id", "Id", orderLine.OrderId);
-            ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "Id", "Id", orderLine.ProductId);
-            return View(orderLine);
+            ViewData["CategoryId"] = new SelectList(_context.Set<ProductCategory>(), "Id", "Id", product.CategoryId);
+            return View(product);
         }
 
-        // GET: OrderLines/Edit/5
+        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,24 +76,23 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var orderLine = await _context.OrderLine.FindAsync(id);
-            if (orderLine == null)
+            var product = await _context.Product.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            ViewData["OrderId"] = new SelectList(_context.Order, "Id", "Id", orderLine.OrderId);
-            ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "Id", "Id", orderLine.ProductId);
-            return View(orderLine);
+            ViewData["CategoryId"] = new SelectList(_context.Set<ProductCategory>(), "Id", "Id", product.CategoryId);
+            return View(product);
         }
 
-        // POST: OrderLines/Edit/5
+        // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Price,OrderId,ProductId")] OrderLine orderLine)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,Picture,CategoryId")] Product product)
         {
-            if (id != orderLine.Id)
+            if (id != product.Id)
             {
                 return NotFound();
             }
@@ -110,12 +101,12 @@ namespace KooliProjekt.Controllers
             {
                 try
                 {
-                    _context.Update(orderLine);
+                    _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderLineExists(orderLine.Id))
+                    if (!ProductExists(product.Id))
                     {
                         return NotFound();
                     }
@@ -126,12 +117,11 @@ namespace KooliProjekt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrderId"] = new SelectList(_context.Order, "Id", "Id", orderLine.OrderId);
-            ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "Id", "Id", orderLine.ProductId);
-            return View(orderLine);
+            ViewData["CategoryId"] = new SelectList(_context.Set<ProductCategory>(), "Id", "Id", product.CategoryId);
+            return View(product);
         }
 
-        // GET: OrderLines/Delete/5
+        // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,36 +129,35 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var orderLine = await _context.OrderLine
-                .Include(o => o.Order)
-                .Include(o => o.Product)
+            var product = await _context.Product
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (orderLine == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return View(orderLine);
+            return View(product);
         }
 
-        // POST: OrderLines/Delete/5
+        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var orderLine = await _context.OrderLine.FindAsync(id);
-            if (orderLine != null)
+            var product = await _context.Product.FindAsync(id);
+            if (product != null)
             {
-                _context.OrderLine.Remove(orderLine);
+                _context.Product.Remove(product);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderLineExists(int id)
+        private bool ProductExists(int id)
         {
-            return _context.OrderLine.Any(e => e.Id == id);
+            return _context.Product.Any(e => e.Id == id);
         }
     }
 }

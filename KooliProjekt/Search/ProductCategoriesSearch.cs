@@ -1,6 +1,6 @@
 ﻿namespace KooliProjekt.Search
 {
-    public class ProductCategoriesSearch
+    public class ProductCategorySearch
     {
         public string Keyword { get; set; }
     }
