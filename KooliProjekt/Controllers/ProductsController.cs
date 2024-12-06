@@ -6,23 +6,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Data;
+using KooliProjekt.Models;
+using KooliProjekt.Services;
 
 namespace KooliProjekt.Controllers
 {
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context,
+            IProductService productService)
         {
             _context = context;
+            _productService = productService;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index(int page = 1)
+        // GET: ProductCategories
+        public async Task<IActionResult> Index(int page = 1, ProductIndexModel model = null)
         {
-            var applicationDbContext = _context.Product.Include(p => p.Category);
-            return View(await applicationDbContext.GetPagedAsync(page, 5));
+            model = model ?? new ProductIndexModel();
+            model.Data = await _productService.List(page, 5, model.Search);
+
+            return View(model);
         }
 
         // GET: Products/Details/5

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Data;
 using KooliProjekt.Services;
+using KooliProjekt.Models;
 
 namespace KooliProjekt.Controllers
 {
@@ -15,18 +16,20 @@ namespace KooliProjekt.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IOrderService _orderService;
 
-        public OrderController(ApplicationDbContext context, IOrderService orderService)
+        public OrderController(ApplicationDbContext context,
+            IOrderService orderService)
         {
             _context = context;
             _orderService = orderService;
         }
 
-        // GET: Orders
-        public async Task<IActionResult> Index(int page = 1)
+        // GET: ProductCategories
+        public async Task<IActionResult> Index(int page = 1, OrderIndexModel model = null)
         {
-            var data = await _orderService.List(page, 5);
+            model = model ?? new OrderIndexModel();
+            model.Data = await _orderService.List(page, 5, model.Search);
 
-            return View(data);
+            return View(model);
         }
 
         // GET: Orders/Details/5

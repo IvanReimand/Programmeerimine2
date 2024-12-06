@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KooliProjekt.Data.Product>
+﻿@model PagedResult<KooliProjekt.Data.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,7 +31,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Results) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

@@ -22,6 +22,7 @@ namespace KooliProjekt
             builder.Services.AddControllersWithViews();
             
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
             var app = builder.Build();
 

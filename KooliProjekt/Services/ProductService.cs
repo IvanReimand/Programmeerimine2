@@ -8,7 +8,7 @@ namespace KooliProjekt.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public TodoListService(ApplicationDbContext context)
+        public ProductService(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -33,25 +33,11 @@ namespace KooliProjekt.Services
 
             if (!string.IsNullOrWhiteSpace(search.Keyword))
             {
-                query = query.Where(list => list.Title.Contains(search.Keyword));
-            }
-
-            if (search.Done != null)
-            {
-                query = query.Where(list => list.Items.Any());
-
-                if (search.Done.Value)
-                {
-                    query = query.Where(list => list.Items.All(item => item.IsDone));
-                }
-                else
-                {
-                    query = query.Where(list => list.Items.Any(item => !item.IsDone));
-                }
+                query = query.Where(list => list.Name.Contains(search.Keyword));
             }
 
             return await query
-                .OrderBy(list => list.Title)
+                .OrderBy(list => list.Name)
                 .GetPagedAsync(page, pageSize);
         }
 

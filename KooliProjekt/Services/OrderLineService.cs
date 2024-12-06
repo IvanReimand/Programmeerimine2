@@ -1,4 +1,5 @@
 ﻿using KooliProjekt.Data;
+using KooliProjekt.Search;
 using Microsoft.EntityFrameworkCore;
 
 namespace KooliProjekt.Services
@@ -12,7 +13,7 @@ namespace KooliProjekt.Services
             _context = context;
         }
 
-        public async Task<PagedResult<OrderLine>> List(int page, int pageSize)
+        public async Task<PagedResult<OrderLine>> List(int page, int pageSize, OrderLineSearch search)
         {
             return await _context.OrderLine.GetPagedAsync(page, 5);
         }

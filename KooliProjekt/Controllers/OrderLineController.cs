@@ -1,3 +1,4 @@
+﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KooliProjekt.Data;
 using KooliProjekt.Services;
+using KooliProjekt.Models;
 
 namespace KooliProjekt.Controllers
 {
@@ -15,31 +17,24 @@ namespace KooliProjekt.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IOrderLineService _orderLineService;
 
-        public OrderLineController(ApplicationDbContext context, IOrderLineService orderLineService)
+        public OrderLineController(ApplicationDbContext context,
+            IOrderLineService orderLineService)
         {
             _context = context;
             _orderLineService = orderLineService;
         }
 
-        // GET: OrderLines
-        !!!!! public async Task<IActionResult> Index(int page = 1)
+        // GET: ProductCategories
+        public async Task<IActionResult> Index(int page = 1, OrderLineIndexModel model = null)
         {
-            
-            var applicationDbContext = _context.OrderLine.Include(o => o.Order).Include(o => o.Product);
-            
-            return View(await applicationDbContext.GetPagedAsync(page, 5));
-        } !!!!
-
-        //public async Task<IActionResult> Index(int page = 1, TodoListsIndexModel model = null)
-        {
-            model = model ?? new TodoListsIndexModel();
-        model.Data = await _todoListService.List(page, 5, model.Search);
+            model = model ?? new OrderLineIndexModel();
+            model.Data = await _orderLineService.List(page, 5, model.Search);
 
             return View(model);
-    }
+        }
 
-    // GET: OrderLines/Details/5
-    public async Task<IActionResult> Details(int? id)
+        // GET: OrderLines/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
