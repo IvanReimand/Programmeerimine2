@@ -43,5 +43,126 @@ namespace KooliProjekt.UnitTests.ControllerTests
             Assert.NotNull(result);
             Assert.Equal(pagedResult, result.Model);
         }
+
+
+        [Fact]
+        public async Task Details_should_return_notfound_when_id_is_null()
+        {
+            // Arrange
+            int? id = null;
+
+            // Act
+            var result = await _controller.Details(id) as NotFoundResult;
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Details_should_return_notfound_when_item_was_not_found()
+        {
+            // Arrange
+            int? id = 1;
+            var order = (Order)null;
+            _orderServiceMock
+                .Setup(x => x.Get(id.Value))
+                .ReturnsAsync(order);
+
+            // Act
+            var result = await _controller.Details(id) as NotFoundResult;
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Details_should_return_correct_view_with_model_when_item_was_found()
+        {
+            // Arrange
+            int? id = 1;
+            var order = new Order { Id = id.Value};
+            _orderServiceMock
+                .Setup(x => x.Get(id.Value))
+                .ReturnsAsync(order);
+
+            // Act
+            var result = await _controller.Details(id) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(
+                string.IsNullOrEmpty(result.ViewName) ||
+                result.ViewName == "Details"
+            );
+            Assert.Equal(order, result.Model);
+        }
+
+        [Fact]
+        public void Create_should_return_correct_view()
+        {
+            // Arrange
+
+            // Act
+            var result = _controller.Create() as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(
+                string.IsNullOrEmpty(result.ViewName) ||
+                result.ViewName == "Create"
+            );
+        }
+
+        [Fact]
+        public async Task Delete_should_return_notfound_when_id_is_null()
+        {
+            // Arrange
+            int? id = null;
+
+            // Act
+            var result = await _controller.Delete(id) as NotFoundResult;
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Delete_should_return_notfound_when_item_was_not_found()
+        {
+            // Arrange
+            int? id = 1;
+            var order = (Order)null;
+            _orderServiceMock
+                .Setup(x => x.Get(id.Value))
+                .ReturnsAsync(order);
+
+            // Act
+            var result = await _controller.Delete(id) as NotFoundResult;
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Delete_should_return_correct_view_with_model_when_item_was_found()
+        {
+            // Arrange
+            int? id = 1;
+            var order = new Order { Id = id.Value };
+            _orderServiceMock
+                .Setup(x => x.Get(id.Value))
+                .ReturnsAsync(order);
+
+            // Act
+            var result = await _controller.Delete(id) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(
+                string.IsNullOrEmpty(result.ViewName) ||
+                result.ViewName == "Delete"
+            );
+            Assert.Equal(order, result.Model);
+        }
     }
 }
