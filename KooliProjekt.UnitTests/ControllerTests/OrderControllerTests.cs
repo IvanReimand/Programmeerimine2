@@ -113,6 +113,7 @@ namespace KooliProjekt.UnitTests.ControllerTests
             );
         }
 
+        #region Delete tests
         [Fact]
         public async Task Delete_should_return_notfound_when_id_is_null()
         {
@@ -143,6 +144,7 @@ namespace KooliProjekt.UnitTests.ControllerTests
             Assert.NotNull(result);
         }
 
+
         [Fact]
         public async Task Delete_should_return_correct_view_with_model_when_item_was_found()
         {
@@ -163,6 +165,24 @@ namespace KooliProjekt.UnitTests.ControllerTests
                 result.ViewName == "Delete"
             );
             Assert.Equal(order, result.Model);
+        }
+        #endregion
+
+        [Fact]
+        public async Task DeleteConfirmed_should_delete_list()
+        {
+            // Arrange
+            int id = 1;
+            _orderServiceMock
+                .Setup(x => x.Delete(id))
+                .Verifiable();
+
+            // Act
+            var result = await _controller.DeleteConfirmed(id) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            _orderServiceMock.VerifyAll();
         }
     }
 }

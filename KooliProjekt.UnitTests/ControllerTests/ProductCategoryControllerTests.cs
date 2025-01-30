@@ -142,7 +142,7 @@ namespace KooliProjekt.UnitTests.ControllerTests
                 Assert.NotNull(result);
             }
 
-            [Fact]
+        [Fact]
             public async Task Delete_should_return_correct_view_with_model_when_item_was_found()
             {
                 // Arrange
@@ -163,5 +163,21 @@ namespace KooliProjekt.UnitTests.ControllerTests
                 );
                 Assert.Equal(productCategory, result.Model);
             }
+        [Fact]
+        public async Task DeleteConfirmed_should_delete_list()
+        {
+            // Arrange
+            int id = 1;
+            _productCategoryServiceMock
+                .Setup(x => x.Delete(id))
+        .Verifiable();
+
+            // Act
+            var result = await _controller.DeleteConfirmed(id) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            _productCategoryServiceMock.VerifyAll();
         }
+    }
     }

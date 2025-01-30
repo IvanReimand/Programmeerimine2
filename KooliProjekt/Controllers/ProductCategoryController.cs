@@ -13,13 +13,13 @@ namespace KooliProjekt.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IProductCategoryService _productCategoryService;
 
         public ProductCategoryController(ApplicationDbContext context, 
             IProductCategoryService productCategoryService)
         {
-            _context = context;
+            //_context = context;
             _productCategoryService = productCategoryService;
         }
 
@@ -40,8 +40,7 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var productCategory = await _context.ProductCategory
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var productCategory = await _productCategoryService.Get(id.Value);
             if (productCategory == null)
             {
                 return NotFound();
@@ -65,8 +64,7 @@ namespace KooliProjekt.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(productCategory);
-                await _context.SaveChangesAsync();
+                await _productCategoryService.Save(productCategory);
                 return RedirectToAction(nameof(Index));
             }
             return View(productCategory);
@@ -80,7 +78,7 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var productCategory = await _context.ProductCategory.FindAsync(id);
+            var productCategory = await _productCategoryService.Get(id.Value);
             if (productCategory == null)
             {
                 return NotFound();
@@ -100,27 +98,15 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(productCategory);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductCategoryExists(productCategory.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(productCategory);
+                
             }
-            return View(productCategory);
+
+            await _productCategoryService.Save(productCategory);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ProductCategories/Delete/5
@@ -131,8 +117,7 @@ namespace KooliProjekt.Controllers
                 return NotFound();
             }
 
-            var productCategory = await _context.ProductCategory
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var productCategory = await _productCategoryService.Get(id.Value);
             if (productCategory == null)
             {
                 return NotFound();
@@ -146,19 +131,9 @@ namespace KooliProjekt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var productCategory = await _context.ProductCategory.FindAsync(id);
-            if (productCategory != null)
-            {
-                _context.ProductCategory.Remove(productCategory);
-            }
-
-            await _context.SaveChangesAsync();
+            await _productCategoryService.Delete(id);
+            
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductCategoryExists(int id)
-        {
-            return _context.ProductCategory.Any(e => e.Id == id);
         }
     }
 }
