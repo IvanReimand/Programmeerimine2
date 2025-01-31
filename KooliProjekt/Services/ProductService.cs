@@ -12,19 +12,19 @@ namespace KooliProjekt.Services
         {
             _context = context;
         }
-
         public async Task Delete(int id)
         {
-            await _context.Product
-                .Where(list => list.Id == id)
-                .ExecuteDeleteAsync();
+            var product = await _context.Product.FindAsync(id);
+            if (product != null)
+            {
+                _context.Product.Remove(product);
+                await _context.SaveChangesAsync();
+            }
         }
-
         public async Task<Product> Get(int id)
         {
             return await _context.Product.FindAsync(id);
         }
-
         public async Task<PagedResult<Product>> List(int page, int pageSize, ProductSearch search = null)
         {
             var query = _context.Product.AsQueryable();
@@ -40,7 +40,6 @@ namespace KooliProjekt.Services
                 .OrderBy(list => list.Name)
                 .GetPagedAsync(page, pageSize);
         }
-
         public async Task Save(Product list)
         {
             if (list.Id == 0)
