@@ -21,6 +21,8 @@ namespace KooliProjekt
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
             
+
+
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
