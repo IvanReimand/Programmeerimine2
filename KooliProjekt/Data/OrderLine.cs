@@ -1,7 +1,10 @@
-﻿namespace KooliProjekt.Data
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace KooliProjekt.Data
 {
     public class OrderLine
     {
+        [ExcludeFromCodeCoverage]
         public int Id { get; set; }
         public int Amount { get; set; }
         public decimal Price { get; set; }

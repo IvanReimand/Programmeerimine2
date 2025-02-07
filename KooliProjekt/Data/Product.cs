@@ -1,7 +1,10 @@
-﻿namespace KooliProjekt.Data
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace KooliProjekt.Data
 {
     public class Product
     {
+        [ExcludeFromCodeCoverage]
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }

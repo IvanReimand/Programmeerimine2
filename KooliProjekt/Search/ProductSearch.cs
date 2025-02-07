@@ -1,7 +1,11 @@
-﻿namespace KooliProjekt.Search
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace KooliProjekt.Search
 {
     public class ProductSearch
 {
-    public string Keyword { get; set; }
+        [ExcludeFromCodeCoverage]
+
+        public string Keyword { get; set; }
 }
 }

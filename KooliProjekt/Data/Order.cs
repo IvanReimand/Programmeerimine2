@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace KooliProjekt.Data
 {
     public class Order
     {
+        [ExcludeFromCodeCoverage]
         public int Id { get; set; }
         public DateTime Date { get; set; }
 
