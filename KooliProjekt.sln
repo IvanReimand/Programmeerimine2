@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KooliProjekt", "KooliProjek
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KooliProjekt.UnitTests", "KooliProjekt.UnitTests\KooliProjekt.UnitTests.csproj", "{ED6F020F-8927-48D7-BD68-507329DF484F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KooliProjekt.IntegrationTests", "KooliProjekt.IntegrationTests\KooliProjekt.IntegrationTests.csproj", "{6EDFB8B6-4142-4569-99F0-C5BE87F077FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ED6F020F-8927-48D7-BD68-507329DF484F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED6F020F-8927-48D7-BD68-507329DF484F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED6F020F-8927-48D7-BD68-507329DF484F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EDFB8B6-4142-4569-99F0-C5BE87F077FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EDFB8B6-4142-4569-99F0-C5BE87F077FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EDFB8B6-4142-4569-99F0-C5BE87F077FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EDFB8B6-4142-4569-99F0-C5BE87F077FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
