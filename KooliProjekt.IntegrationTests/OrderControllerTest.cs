@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace KooliProjekt.IntegrationTests
         public async Task Details_should_return_ok_when_list_was_found()
         {
             // Arrange
-            var list = new Order { Title = "List 1" };
+            var list = new Order { Id = 25 };
             _context.Order.Add(list);
             _context.SaveChanges();
 
@@ -76,8 +77,8 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
             var formValues = new Dictionary<string, string>();
             
-            formValues.Add{ "ID", "10" };
-            formValues.Add{ "Title", "Test" };
+            formValues.Add( "Id", "10" );
+            formValues.Add( "Title", "Test" );
 
             using var content = new FormUrlEncodedContent(formValues);
 
@@ -87,10 +88,10 @@ namespace KooliProjekt.IntegrationTests
             // Assert
             Assert .True(response.StatusCode == HttpStatusCode.Redirect);
 
-            var list = _context.Order.FirstOrDefault(10);
+            var list = _context.Order.FirstOrDefault();
             Assert.NotNull(list);
             Assert.NotEqual(0, list.Id);
-            Assert.Equal("Test", list.Title);
+            Assert.Equal("Test", list.UserId);
         }
         [Fact]
         public async Task Create_should_not_save_invalid_new_list()
@@ -98,7 +99,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
             var formValues = new Dictionary<string, string>();
 
-            formValues.Add{ "Title", "" };
+            formValues.Add ( "Title", "" );
             
             using var content = new FormUrlEncodedContent(formValues);
 
@@ -106,6 +107,7 @@ namespace KooliProjekt.IntegrationTests
             using var response = await _client.PostAsync("/Order/Create", content);
             // Assert
             response.EnsureSuccessStatusCode();
+            Assert.False(_context.Order.Any());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using KooliProjekt.Data;
@@ -8,12 +10,12 @@ using Xunit;
 namespace KooliProjekt.IntegrationTests
 {
     [Collection("Sequential")]
-    public class ProductControllerTests : TestBase
+    public class OrderLineControllerTests : TestBase
     {
         private readonly HttpClient _client;
         private readonly ApplicationDbContext _context;
 
-        public ProductControllerTests()
+        public OrderLineControllerTests()
         {
             _client = Factory.CreateClient();
             _context = (ApplicationDbContext)Factory.Services.GetService(typeof(ApplicationDbContext));
@@ -25,7 +27,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
 
             // Act
-            using var response = await _client.GetAsync("/Product");
+            using var response = await _client.GetAsync("/OrderLine");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -37,7 +39,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
 
             // Act
-            using var response = await _client.GetAsync("/Product/Details/100");
+            using var response = await _client.GetAsync("/OrderLine/Details/100");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -49,7 +51,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
 
             // Act
-            using var response = await _client.GetAsync("/Product/Details/");
+            using var response = await _client.GetAsync("/OrderLine/Details/");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -59,12 +61,12 @@ namespace KooliProjekt.IntegrationTests
         public async Task Details_should_return_ok_when_list_was_found()
         {
             // Arrange
-            var list = new Product { Title = "List 1" };
-            _context.Product.Add(list);
+            var list = new OrderLine { Id = 10 };
+            _context.OrderLine.Add(list);
             _context.SaveChanges();
 
             // Act
-            using var response = await _client.GetAsync("/Product/Details/" + list.Id);
+            using var response = await _client.GetAsync("/OrderLine/Details/" + list.Id);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -74,25 +76,23 @@ namespace KooliProjekt.IntegrationTests
         {
             // Arrange
             var formValues = new Dictionary<string, string>();
-            formValues.Add("Id", "0");
+
+            formValues.Add("Id", "10");
             formValues.Add("Title", "Test");
 
             using var content = new FormUrlEncodedContent(formValues);
 
             // Act
-            using var response = await _client.PostAsync("/ProductLists/Create", content);
+            using var response = await _client.PostAsync("/OrderLine/Create", content);
 
             // Assert
-            Assert.True(
-                response.StatusCode == HttpStatusCode.Redirect ||
-                response.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.True(response.StatusCode == HttpStatusCode.Redirect);
 
-            var list = _context.Product.FirstOrDefault();
+            var list = _context.Order.FirstOrDefault();
             Assert.NotNull(list);
             Assert.NotEqual(0, list.Id);
-            Assert.Equal("Test", list.Title);
+            Assert.Equal("Test", list.UserId);
         }
-
         [Fact]
         public async Task Create_should_not_save_invalid_new_list()
         {
@@ -104,11 +104,9 @@ namespace KooliProjekt.IntegrationTests
             using var content = new FormUrlEncodedContent(formValues);
 
             // Act
-            using var response = await _client.PostAsync("/Product/Create", content);
-
+            using var response = await _client.PostAsync("/OrderLine/Create", content);
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.False(_context.Product.Any());
         }
     }
 }

@@ -12,12 +12,12 @@ using Xunit;
 
 namespace KooliProjekt.UnitTests.ControllerTests
 {
-    public class OrederLineControllerTests
+    public class OrderLineControllerTests
     {
         private readonly Mock<IOrderLineService> _orderLineServiceMock;
         private readonly OrderLineController _controller;
 
-        public OrederLineControllerTests()
+        public OrderLineControllerTests()
         {
             _orderLineServiceMock = new Mock<IOrderLineService>();
             _controller = new OrderLineController(null, _orderLineServiceMock.Object);

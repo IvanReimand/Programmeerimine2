@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using KooliProjekt.Data;
@@ -8,12 +10,12 @@ using Xunit;
 namespace KooliProjekt.IntegrationTests
 {
     [Collection("Sequential")]
-    public class ProductCartegoryControllerTests : TestBase
+    public class ProductControllerTests : TestBase
     {
         private readonly HttpClient _client;
         private readonly ApplicationDbContext _context;
 
-        public ProductCategoryControllerTests()
+        public ProductControllerTests()
         {
             _client = Factory.CreateClient();
             _context = (ApplicationDbContext)Factory.Services.GetService(typeof(ApplicationDbContext));
@@ -25,7 +27,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
 
             // Act
-            using var response = await _client.GetAsync("/ProductCategory");
+            using var response = await _client.GetAsync("/Product");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -37,7 +39,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
 
             // Act
-            using var response = await _client.GetAsync("/ProductCategory/Details/100");
+            using var response = await _client.GetAsync("/Product/Details/100");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -49,7 +51,7 @@ namespace KooliProjekt.IntegrationTests
             // Arrange
 
             // Act
-            using var response = await _client.GetAsync("/ProductCategory/Details/");
+            using var response = await _client.GetAsync("/Product/Details/");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -59,17 +61,16 @@ namespace KooliProjekt.IntegrationTests
         public async Task Details_should_return_ok_when_list_was_found()
         {
             // Arrange
-            var list = new ProductCategory { Title = "List 1" };
-            _context.ProductCategory.Add(list);
+            var list = new Product { Id = 10 };
+            _context.Product.Add(list);
             _context.SaveChanges();
 
             // Act
-            using var response = await _client.GetAsync("/ProductCategory/Details/" + list.Id);
+            using var response = await _client.GetAsync("/Product/Details/" + list.Id);
 
             // Assert
             response.EnsureSuccessStatusCode();
         }
-
         [Fact]
         public async Task Create_should_save_new_list()
         {
@@ -81,17 +82,17 @@ namespace KooliProjekt.IntegrationTests
             using var content = new FormUrlEncodedContent(formValues);
 
             // Act
-            using var response = await _client.PostAsync("/ProductCategoryLists/Create", content);
+            using var response = await _client.PostAsync("/ProductLists/Create", content);
 
             // Assert
             Assert.True(
                 response.StatusCode == HttpStatusCode.Redirect ||
                 response.StatusCode == HttpStatusCode.MovedPermanently);
 
-            var list = _context.ProductCategory.FirstOrDefault();
+            var list = _context.Product.FirstOrDefault();
             Assert.NotNull(list);
             Assert.NotEqual(0, list.Id);
-            Assert.Equal("Test", list.Title);
+            Assert.Equal("Test", list.Name);
         }
 
         [Fact]
@@ -105,11 +106,11 @@ namespace KooliProjekt.IntegrationTests
             using var content = new FormUrlEncodedContent(formValues);
 
             // Act
-            using var response = await _client.PostAsync("/ProductCategory/Create", content);
+            using var response = await _client.PostAsync("/Product/Create", content);
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.False(_context.ProductCategory.Any());
+            Assert.False(_context.Product.Any());
         }
     }
 }

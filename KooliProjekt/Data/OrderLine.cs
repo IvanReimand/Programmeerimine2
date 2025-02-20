@@ -10,11 +10,11 @@ namespace KooliProjekt.Data
         public decimal Price { get; set; }
 
         // tellimus: tooted
-        public Order Order { get; set; }
-        public int OrderId { get; set; }
+        public OrderLine User { get; set; }
+        public int OrderLineId { get; set; }
 
         //toode
-        public Product Product { get; set; }
+        public OrderLine Product { get; set; }
         public int ProductId { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace KooliProjekt.Data
         public string Picture { get; set; }
 
         //sidume product category
-        public ProductCategory Category { get; set; }
+        public Product Category { get; set; }
         public int CategoryId { get; set; }
 
     }

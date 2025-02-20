@@ -14,11 +14,11 @@ namespace KooliProjekt.Data
         public string UserId { get; set; }
 
         // mis tooted tellib klient
-        public IList<OrderLine> Lines { get; set; }
+        public IList<Order> Lines { get; set; }
 
         public Order()
         {
-            Lines = new List<OrderLine>();
+            Lines = new List<Order>();
         }
     }
 }
