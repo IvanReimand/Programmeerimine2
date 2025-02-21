@@ -9,12 +9,14 @@ namespace KooliProjekt.Data
         public int Amount { get; set; }
         public decimal Price { get; set; }
 
+        public Order Order { get; set; }
+
         // tellimus: tooted
         public OrderLine User { get; set; }
         public int OrderLineId { get; set; }
 
         //toode
-        public OrderLine Product { get; set; }
+        public Product Product { get; set; }
         public int ProductId { get; set; }
     }
 }

@@ -77,70 +77,70 @@ namespace KooliProjekt.Data
 
             var product1 = new Product();
             product1.Name = "Product 1";
-            product1.Category = category1;
+            product1.ProductCategory = category1;
             product1.Price = 12;
             product1.Description = "Description 1";
             context.Product.Add(product1);
 
             var product2 = new Product();
             product2.Name = "Product 2";
-            product2.Category = category2;
+            product2.ProductCategory = category2;
             product2.Price = 12;
             product1.Description = "Description 2";
             context.Product.Add(product2);
 
             var product3 = new Product();
             product3.Name = "Product 3";
-            product3.Category = category3;
+            product3.ProductCategory = category3;
             product3.Price = 12;
             product1.Description = "Description 3";
             context.Product.Add(product3);
 
             var product4 = new Product();
             product4.Name = "Product 4";
-            product4.Category = category4;
+            product4.ProductCategory = category4;
             product4.Price = 12;
             product1.Description = "Description 4";
             context.Product.Add(product4);
 
             var product5 = new Product();
             product5.Name = "Product 5";
-            product5.Category = category5;
+            product5.ProductCategory = category5;
             product5.Price = 12;
             product1.Description = "Description 5";
             context.Product.Add(product5);
 
             var product6 = new Product();
             product6.Name = "Product 6";
-            product6.Category = category6;
+            product6.ProductCategory = category6;
             product6.Price = 12;
             product1.Description = "Description 6";
             context.Product.Add(product6);
 
             var product7 = new Product();
             product7.Name = "Product 7";
-            product7.Category = category7;
+            product7.ProductCategory = category7;
             product7.Price = 12;
             product1.Description = "Description 7";
             context.Product.Add(product7);
 
             var product8 = new Product();
             product8.Name = "Product 8";
-            product8.Category = category8;
+            product8.ProductCategory = category8;
             product8.Price = 12;
             product1.Description = "Description 8";
             context.Product.Add(product8);
 
             var product9 = new Product();
             product9.Name = "Product 9";
-            product9.Category = category9;
+            product9.ProductCategory = category9;
             product9.Price = 12;
             product1.Description = "Description 9";
             context.Product.Add(product9);
 
             var product10 = new Product();
             product10.Name = "Product 10";
-            product10.Category = category10;
+            product10.ProductCategory = category10;
             product10.Price = 12;
             product1.Description = "Description 10";
             context.Product.Add(product10);

@@ -11,8 +11,10 @@ namespace KooliProjekt.Data
         public string Description { get; set; }
         public string Picture { get; set; }
 
+        public string Category { get; set; }
+
         //sidume product category
-        public Product Category { get; set; }
+        public ProductCategory ProductCategory { get; set; }
         public int CategoryId { get; set; }
 
     }
