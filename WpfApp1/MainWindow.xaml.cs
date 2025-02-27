@@ -1,58 +1,37 @@
-﻿using System.Text;
+﻿using Koliprojekt.WpfApp1;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Kooliprojekt.WpfApp1.Api;
+using WpfApp1;
 
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows;
+namespace kooliProjekt.WpfApp1;
 
-namespace WpfApp1
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    private readonly MainWindowViewModel _viewModel;
+    public MainWindow()
     {
-        private readonly HttpClient _httpClient;
-        private object txtResponse;
+        InitializeComponent();
+        _viewModel = new MainWindowViewModel(new Get());
+        DataContext = _viewModel;
+        Loaded += MainWindow_Loaded;
+    }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            _httpClient = new HttpClient();
-        }
+    private void InitializeComponent()
+    {
+        throw new NotImplementedException();
+    }
 
-        // Обработчик клика по кнопке
-        private async void btnFetchData_Click(object sender, RoutedEventArgs e)
-        {
-            // URL для API
-            string apiUrl = "https://jsonplaceholder.typicode.com/posts/1";
-
-            try
-            {
-                // Получаем данные из API
-                string response = await FetchDataFromApiAsync(apiUrl);
-                txtResponse.Text = response; // Показываем ответ в TextBox
-            }
-            catch (Exception ex)
-            {
-                txtResponse.Text = "Error: " + ex.Message;
-            }
-        }
-
-        // Асинхронный метод для получения данных из API
-        private async Task<string> FetchDataFromApiAsync(string url)
-        {
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode(); // Бросит исключение, если код ответа не 2xx
-
-            string responseData = await response.Content.ReadAsStringAsync();
-            return responseData;
-        }
+    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        await _viewModel.Load();
     }
 }
