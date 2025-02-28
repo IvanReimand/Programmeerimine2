@@ -7,6 +7,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="400"></ColumnDefinition>
+			<ColumnDefinition Width="400"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<DataGrid
+            x:Name="OrderGrid"
+			d:ItemsSource="{d:SampleData ItemCount=10}"
+			ItemSource="{Binding Orders}"
+			SelectedItem="{Building SelectedList}"
+		/>
+		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
+			<TextBlock>ID</TextBlock>
+			<TextBox Text="{Binding SelectedList.Id}"></TextBox>
+			<TextBlock>Title</TextBlock>
+			<TextBox Text="{Binding SelectedList.Title}"></TextBox>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+				<Button Margin="5">New</Button>
+				<Button Margin="5">Save</Button>
+				<Button Margin="5">Delete</Button>
+				
+			</StackPanel>
+		</StackPanel>
     </Grid>
 </Window>

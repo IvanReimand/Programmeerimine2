@@ -20,8 +20,14 @@ namespace KooliProjekt.Services
 
         public async Task<Order> Get(int id)
         {
-            return await _context.Order.Include(o => o.User).FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.Order
+                .AsNoTracking()
+                .Incluiude(List => List.Items)
+                .Where(list => List. == id)
+                .FirstOrDefaultAsync();
         }
+
+
 
         public async Task Save(Order list)
         {

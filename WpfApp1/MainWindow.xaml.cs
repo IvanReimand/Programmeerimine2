@@ -17,21 +17,18 @@ namespace kooliProjekt.WpfApp1;
 public partial class MainWindow : Window
 {
     private readonly MainWindowViewModel _viewModel;
-    public MainWindow()
     {
-        InitializeComponent();
-        _viewModel = new MainWindowViewModel(new Get());
-        DataContext = _viewModel;
-        Loaded += MainWindow_Loaded;
-    }
+        public MainWindow()
+        {
+            InitializeComponent();
+            Loaded += MainWindow_Loaded;
+        }
 
-    private void InitializeComponent()
-    {
-        throw new NotImplementedException();
-    }
-
-    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-        await _viewModel.Load();
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var viewModel. = new mainWindowModel(new IApiClient());
+            DataContext = viewModel;
+            await viewModel.Load();
+        }
     }
 }
