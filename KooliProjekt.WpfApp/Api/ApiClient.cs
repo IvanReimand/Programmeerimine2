@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -18,16 +18,16 @@ namespace KooliProjekt.WpfApp.Api
             _httpClient.BaseAddress = new Uri("https://localhost:7136/api/TodoLists/");
         }
 
-        public async Task<IList<Order>> List()
+        public async Task<IList<TodoList>> List()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Order>>("");
+            var result = await _httpClient.GetFromJsonAsync<List<TodoList>>("");
 
             return result;
         }
 
-        public async Task Save(Order list)
+        public async Task Save(TodoList list)
         {
-            if (list.Id == 0)
+            if(list.Id == 0)
             {
                 await _httpClient.PostAsJsonAsync("", list);
             }

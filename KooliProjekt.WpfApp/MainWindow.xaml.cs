@@ -16,11 +16,6 @@ namespace KooliProjekt.WpfApp
 
         }
 
-        private void InitializeComponent()
-        {
-            throw new NotImplementedException();
-        }
-
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var viewModel = new MainWindowViewModel(new ApiClient());
