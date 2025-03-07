@@ -22,8 +22,8 @@ namespace KooliProjekt.Services
         {
             return await _context.Order
                 .AsNoTracking()
-                .Incluiude(List => List.Items)
-                .Where(list => List. == id)
+                .Include(List => List.Lines)
+                .Where(list => list.Id == id)
                 .FirstOrDefaultAsync();
         }
 

@@ -14,8 +14,8 @@
 		<DataGrid
             x:Name="OrderGrid"
 			d:ItemsSource="{d:SampleData ItemCount=10}"
-			ItemSource="{Binding Orders}"
-			SelectedItem="{Building SelectedList}"
+			ItemsSource="{Binding Orders}"
+			SelectedItem="{Binding SelectedList}"
 		/>
 		<StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
 			<TextBlock>ID</TextBlock>

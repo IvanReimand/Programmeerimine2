@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1.UnitTests", "WpfApp1.UnitTests\WpfApp1.UnitTests.csproj", "{5B8E7665-4B32-4497-AFEA-24B7B67C0EC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{CB69E888-4030-4073-8CB3-2F79FC20DD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB69E888-4030-4073-8CB3-2F79FC20DD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB69E888-4030-4073-8CB3-2F79FC20DD29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B8E7665-4B32-4497-AFEA-24B7B67C0EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B8E7665-4B32-4497-AFEA-24B7B67C0EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B8E7665-4B32-4497-AFEA-24B7B67C0EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B8E7665-4B32-4497-AFEA-24B7B67C0EC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

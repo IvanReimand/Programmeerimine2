@@ -29,7 +29,7 @@ namespace KooliProjekt.WpfApp.Api
         {
             if (list.Id == 0)
             {
-                await _httpClient.PostAsJsonAsync("", list);
+                await _httpClient.PostAsJsonAsync("Order", list);
             }
             else
             {
