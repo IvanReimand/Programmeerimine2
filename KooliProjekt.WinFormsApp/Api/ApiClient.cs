@@ -19,7 +19,7 @@ namespace KooliProjekt.WinFormsApp.Api
 
             try
             {
-                result.Value = await _httpClient.GetFromJsonAsync<List<Order>>("TodoLists");
+                result.Value = await _httpClient.GetFromJsonAsync<List<Order>>("Order");
             }
             catch (HttpRequestException ex)
             {
