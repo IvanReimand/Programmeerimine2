@@ -65,6 +65,7 @@
             IdField.ReadOnly = true;
             IdField.Size = new Size(281, 23);
             IdField.TabIndex = 2;
+            IdField.TextChanged += IdField_TextChanged;
             // 
             // TitleLabel
             // 

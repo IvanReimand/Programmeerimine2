@@ -1,67 +1,109 @@
-
+﻿using KooliProjekt.WinformsApp;
 using KooliProjekt.WinFormsApp.Api;
 
 namespace KooliProjekt.WinFormsApp
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IOrderView
     {
+        public IList<Order> Order
+        {
+            get => (IList<Order>)OrderGrid.DataSource;
+            set
+            {
+                TodoListsGrid.DataSource = value;
+            }
+        }
+
+        public Order SelectedItem { get; set; }
+
+        public OrderPresenter Presenter { get; set; }
+
+        public string Title
+        {
+            get
+            {
+                return TitleField.Text; ;
+            }
+            set
+            {
+                TitleField.Text = value;
+            }
+        }
+
+        public int Id
+        {
+            get
+            {
+                return int.Parse(IdField.Text);
+            }
+            set
+            {
+                IdField.Text = value.ToString();
+            }
+        }
+
+        public object OrderGrid { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
 
-            OrderGrid.SelectionChanged += OrderGrid_SelectionChanged;
+            TodoListsGrid.AutoGenerateColumns = true;
+            TodoListsGrid.SelectionChanged += TodoListsGrid_SelectionChanged;
 
-            NewButton.Click += NewButton_Click;
+            AddButton.Click += AddButton_Click;
             SaveButton.Click += SaveButton_Click;
             DeleteButton.Click += DeleteButton_Click;
+
+            Load += Form1_Load;
         }
 
         private void DeleteButton_Click(object? sender, EventArgs e)
         {
-           throw new NotImplementedException();
+            // Kutsu presenteri Delete meetodi
+            // Lae andmed uuesti
         }
 
         private void SaveButton_Click(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            // Kutsu presenteri Save meetodi
+            // Lae andmed uuesti
         }
 
-        private void NewButton_Click(object? sender, EventArgs e)
+        private void AddButton_Click(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            // Kutsu presenteri UpdateView meetodi
         }
 
         private void TodoListsGrid_SelectionChanged(object? sender, EventArgs e)
         {
-            if (OrderGrid.SelectedRows.Count == 0)
+            if (TodoListsGrid.SelectedRows.Count == 0)
             {
-                return;
-            }
-
-            var order = (Order)OrderGrid.SelectedRows[0].DataBoundItem;
-
-            if(order == null)
-            {
-                IdField.Text = string.Empty;
-                TitleField.Text = string.Empty;
+                SelectedItem = null;
             }
             else
             {
-                IdField.Text = order.Id.ToString();
-                TitleField.Text = order.Title;
+                SelectedItem = (Order)TodoListsGrid.SelectedRows[0].DataBoundItem;
             }
+
+            Presenter.UpdateView(SelectedItem);
         }
 
-        protected override async void OnLoad(EventArgs e)
+        private async void Form1_Load(object? sender, EventArgs e)
         {
-            base.OnLoad(e);
-
-            var apiClient = new ApiClient();
-            var response = await apiClient.List();
-
-            OrderGrid.AutoGenerateColumns = true;
-            OrderGrid.DataSource = response.Value;
-            
+            await Presenter.Load();
         }
+
+        private void IdField_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+    internal interface IOrderView
+    {
+        OrderPresenter Presenter { get; set; }
+        string Title { get; set; }
+        int Id { get; set; }
     }
 }
