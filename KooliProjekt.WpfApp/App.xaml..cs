@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KooliProjekt.WpfApp
 {
-    public class App
+    public partial class App
     {
     }
 }

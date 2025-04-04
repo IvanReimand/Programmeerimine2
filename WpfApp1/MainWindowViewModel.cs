@@ -71,18 +71,25 @@ namespace KooliProjekt.WpfApp
             );
         }
 
+        public MainWindowViewModel(object @object)
+        {
+            this.@object = @object;
+        }
+
         public async Task Load()
         {
             Lists.Clear();
 
             var lists = await _apiClient.List();
-            foreach (var list in lists)
+            foreach (var list in Lists)
             {
                 Lists.Add(list);
             }
         }
 
         private Order _selectedItem;
+        private object @object;
+
         public Order SelectedItem
         {
             get

@@ -2,7 +2,7 @@
 
 namespace KooliProjekt.WinFormsApp
 {
-    public interface ITodoView
+    public interface IOrderView
     {
         IList<Order> Order { get; set; }
         Order SelectedItem { get; set; }

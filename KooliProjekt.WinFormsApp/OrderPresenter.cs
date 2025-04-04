@@ -6,6 +6,12 @@ namespace KooliProjekt.WinFormsApp
     {
         private readonly IApiClient _apiClient;
         private readonly IOrderView _orderView;
+        private object @object;
+
+        public object NewCommand { get; set; }
+        public object SelectedItem { get; set; }
+        public object SaveCommand { get; set; }
+        public object DeleteCommand { get; set; }
 
         public OrderPresenter(IOrderView orderView, IApiClient apiClient)
         {
@@ -13,6 +19,11 @@ namespace KooliProjekt.WinFormsApp
             _orderView = orderView;
 
             orderView.Presenter = this;
+        }
+
+        public OrderPresenter(object @object)
+        {
+            this.@object = @object;
         }
 
         public void UpdateView(Order list)
@@ -33,7 +44,7 @@ namespace KooliProjekt.WinFormsApp
         {
             var orderLists = await _apiClient.List();
 
-            _orderView.Order = order.Value;
+            _orderView.Order = orderLists.Value;
         }
     }
 }

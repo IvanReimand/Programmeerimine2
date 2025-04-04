@@ -1,5 +1,4 @@
-﻿using KooliProjekt.WinformsApp;
-using KooliProjekt.WinFormsApp.Api;
+﻿using KooliProjekt.WinFormsApp.Api;
 
 namespace KooliProjekt.WinFormsApp
 {
@@ -10,7 +9,7 @@ namespace KooliProjekt.WinFormsApp
             get => (IList<Order>)OrderGrid.DataSource;
             set
             {
-                TodoListsGrid.DataSource = value;
+                OrderGrid.DataSource = value;
             }
         }
 
@@ -42,16 +41,14 @@ namespace KooliProjekt.WinFormsApp
             }
         }
 
-        public object OrderGrid { get; private set; }
-
         public Form1()
         {
             InitializeComponent();
 
-            TodoListsGrid.AutoGenerateColumns = true;
-            TodoListsGrid.SelectionChanged += TodoListsGrid_SelectionChanged;
+            OrderGrid.AutoGenerateColumns = true;
+            OrderGrid.SelectionChanged += TodoListsGrid_SelectionChanged;
 
-            AddButton.Click += AddButton_Click;
+            NewButton.Click += AddButton_Click;
             SaveButton.Click += SaveButton_Click;
             DeleteButton.Click += DeleteButton_Click;
 
@@ -77,13 +74,13 @@ namespace KooliProjekt.WinFormsApp
 
         private void TodoListsGrid_SelectionChanged(object? sender, EventArgs e)
         {
-            if (TodoListsGrid.SelectedRows.Count == 0)
+            if (OrderGrid.SelectedRows.Count == 0)
             {
                 SelectedItem = null;
             }
             else
             {
-                SelectedItem = (Order)TodoListsGrid.SelectedRows[0].DataBoundItem;
+                SelectedItem = (Order)OrderGrid.SelectedRows[0].DataBoundItem;
             }
 
             Presenter.UpdateView(SelectedItem);
@@ -98,12 +95,5 @@ namespace KooliProjekt.WinFormsApp
         {
 
         }
-    }
-
-    internal interface IOrderView
-    {
-        OrderPresenter Presenter { get; set; }
-        string Title { get; set; }
-        int Id { get; set; }
     }
 }

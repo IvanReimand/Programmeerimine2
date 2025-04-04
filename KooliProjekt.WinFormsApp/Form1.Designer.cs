@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            TodoListsGrid = new DataGridView();
+            OrderGrid = new DataGridView();
             IdLabel = new Label();
             IdField = new TextBox();
             TitleLabel = new Label();
@@ -36,18 +36,18 @@
             NewButton = new Button();
             SaveButton = new Button();
             DeleteButton = new Button();
-            ((System.ComponentModel.ISupportInitialize)TodoListsGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)OrderGrid).BeginInit();
             SuspendLayout();
             // 
-            // TodoListsGrid
+            // OrderGrid
             // 
-            TodoListsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            TodoListsGrid.Location = new Point(5, 6);
-            TodoListsGrid.MultiSelect = false;
-            TodoListsGrid.Name = "TodoListsGrid";
-            TodoListsGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            TodoListsGrid.Size = new Size(419, 432);
-            TodoListsGrid.TabIndex = 0;
+            OrderGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            OrderGrid.Location = new Point(5, 6);
+            OrderGrid.MultiSelect = false;
+            OrderGrid.Name = "OrderGrid";
+            OrderGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            OrderGrid.Size = new Size(419, 432);
+            OrderGrid.TabIndex = 0;
             // 
             // IdLabel
             // 
@@ -122,17 +122,17 @@
             Controls.Add(TitleLabel);
             Controls.Add(IdField);
             Controls.Add(IdLabel);
-            Controls.Add(TodoListsGrid);
+            Controls.Add(OrderGrid);
             Name = "Form1";
             Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)TodoListsGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)OrderGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView TodoListsGrid;
+        private DataGridView OrderGrid;
         private Label IdLabel;
         private TextBox IdField;
         private Label TitleLabel;
