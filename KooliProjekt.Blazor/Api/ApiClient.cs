@@ -79,14 +79,4 @@ namespace KooliProjekt.BlazorApp
             return result;
         }
     }
-
-    public class Result<T>
-    {
-        public List<Order>? Value { get; internal set; }
-
-        internal void AddError(string v, string message)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
